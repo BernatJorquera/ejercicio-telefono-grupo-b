@@ -12,10 +12,13 @@ function App() {
     e.preventDefault();
     if (e.target.name === "llamar") {
       setLlamando(true);
+      anyadePuntitos("empezar");
       setTimeout(() => {
+        setParaPuntitos(true);
         setLlamando(false);
       }, 5000);
     } else if (e.target.name === "colgar") {
+      setParaPuntitos(true);
       setLlamando(false);
     }
   };
@@ -33,17 +36,6 @@ function App() {
       return;
     }
     tiempoPresionado = setTimeout(() => setNumero(""), 750);
-  };
-  const llamar = (e) => {
-    e.preventDefault();
-    setLlamando(true);
-    anyadePuntitos("empezar");
-  };
-  const colgar = (e) => {
-    e.preventDefault();
-    setParaPuntitos(true);
-    /* anyadePuntitos("parar"); */
-    setLlamando(false);
   };
   const anyadePuntitos = (accion) => {
     /* if (accion === "parar" && typeof intervalPuntitos === "number") {
@@ -81,8 +73,8 @@ function App() {
         </div>
         <div className="acciones">
           <span className="numero">{numero}</span>
-          <a href="llamar" name="llamar" className={`llamar${(numero.length === 9 && !llamando) ? " activo" : ""}`} onClick={tiempoDeLlamada}>Llamar</a>
-          <a href="colgar" name="colgar" className={`colgar${llamando ? " activo" : ""}`} onClick={tiempoDeLlamada}>Colgar</a>
+          <a href="llamar" name="llamar" className={`llamar${(numero.length === 9 && !llamando) ? " activo" : " off"}`} onClick={tiempoDeLlamada}>Llamar</a>
+          <a href="colgar" name="colgar" className={`colgar${llamando ? "" : " off"}`} onClick={tiempoDeLlamada}>Colgar</a>
         </div>
       </main>
     </div>
