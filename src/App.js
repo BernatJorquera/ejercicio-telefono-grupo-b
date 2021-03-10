@@ -3,7 +3,10 @@ import { useState } from "react";
 function App() {
   const [numero, setNumero] = useState("657295390");
   const [llamando, setLlamando] = useState(false);
+  const [puntitos, setPuntitos] = useState("");
+  const [paraPuntitos, setParaPuntitos] = useState(false);
   let tiempoPresionado = "Futuro Timer";
+  let intervalPuntitos = "Futuro Interval";
   const anyadeDigito = (digito) => {
     if (numero.length < 9) {
       setNumero(numero + digito);
@@ -22,14 +25,34 @@ function App() {
   const llamar = (e) => {
     e.preventDefault();
     setLlamando(true);
+    anyadePuntitos("empezar");
   };
   const colgar = (e) => {
     e.preventDefault();
+    setParaPuntitos(true);
+    /* anyadePuntitos("parar"); */
     setLlamando(false);
+  };
+  const anyadePuntitos = (accion) => {
+    /* if (accion === "parar" && typeof intervalPuntitos === "number") {
+      console.log("voy a parar");
+      clearInterval(intervalPuntitos);
+      return;
+    } */
+    let counter = 0;
+    intervalPuntitos = setInterval(() => {
+      if (paraPuntitos) {
+        clearInterval(intervalPuntitos);
+      }
+      setPuntitos((counter % 4 === 0) ? puntitos + "" :
+        ((counter % 4 === 1) ? puntitos + "." :
+          ((counter % 4 === 2) ? puntitos + ".." : "...")));
+      counter++;
+    }, 400);
   };
   return (
     <div className="contenedor">
-      <span className="mensaje">Llamando...</span>
+      <span className="mensaje" hidden={!llamando}>Llamando{puntitos}</span>
       <main className="telefono">
         <div className="botones">
           <ol className="teclado">
