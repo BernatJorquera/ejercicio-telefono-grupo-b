@@ -5,6 +5,17 @@ function App() {
   const [numero, setNumero] = useState("657295390");
   const [llamando, setLlamando] = useState(false);
   let tiempoPresionado = "Futuro Timer";
+  const tiempoDeLlamada = e => {
+    e.preventDefault();
+    if (e.target.name === "llamar") {
+      setLlamando(true);
+      setTimeout(() => {
+        setLlamando(false);
+      }, 5000);
+    } else if (e.target.name === "colgar") {
+      setLlamando(false);
+    }
+  };
   const anyadeDigito = (digito) => {
     if (numero.length < 9) {
       setNumero(numero + digito);
@@ -20,14 +31,6 @@ function App() {
     }
     tiempoPresionado = setTimeout(() => setNumero(""), 750);
   };
-  const llamar = (e) => {
-    e.preventDefault();
-    setLlamando(true);
-  };
-  const colgar = (e) => {
-    e.preventDefault();
-    setLlamando(false);
-  };
   return (
     <div className="contenedor">
       <span className="mensaje">Llamando...</span>
@@ -36,7 +39,7 @@ function App() {
           <ol className="teclado">
             {
               numeroTeclado.map(numero =>
-                <li><button disabled={llamando} onClick={() => anyadeDigito(numero)}>{numero}</button></li>
+                <li key={numero}><button disabled={llamando} onClick={() => anyadeDigito(numero)}>{numero}</button></li>
               )
             }
             <li><button disabled={llamando} className="big"
@@ -47,8 +50,8 @@ function App() {
         </div>
         <div className="acciones">
           <span className="numero">{numero}</span>
-          <a href="llamar" className={`llamar${(numero.length === 9 && !llamando) ? " activo" : ""}`} onClick={llamar}>Llamar</a>
-          <a href="colgar" className={`colgar${llamando ? " activo" : ""}`} onClick={colgar}>Colgar</a>
+          <a href="llamar" name="llamar" className={`llamar${(numero.length === 9 && !llamando) ? " activo" : ""}`} onClick={tiempoDeLlamada}>Llamar</a>
+          <a href="colgar" name="colgar" className={`colgar${llamando ? " activo" : ""}`} onClick={tiempoDeLlamada}>Colgar</a>
         </div>
       </main>
     </div>
