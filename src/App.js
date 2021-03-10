@@ -1,12 +1,24 @@
 import { useState } from "react";
 
 function App() {
+  const numeroTeclado = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
   const [numero, setNumero] = useState("657295390");
   const [llamando, setLlamando] = useState(false);
   const [puntitos, setPuntitos] = useState("");
   const [paraPuntitos, setParaPuntitos] = useState(false);
   let tiempoPresionado = "Futuro Timer";
   let intervalPuntitos = "Futuro Interval";
+  const tiempoDeLlamada = e => {
+    e.preventDefault();
+    if (e.target.name === "llamar") {
+      setLlamando(true);
+      setTimeout(() => {
+        setLlamando(false);
+      }, 5000);
+    } else if (e.target.name === "colgar") {
+      setLlamando(false);
+    }
+  };
   const anyadeDigito = (digito) => {
     if (numero.length < 9) {
       setNumero(numero + digito);
@@ -56,16 +68,11 @@ function App() {
       <main className="telefono">
         <div className="botones">
           <ol className="teclado">
-            <li><button disabled={llamando} onClick={() => anyadeDigito("1")}>1</button></li>
-            <li><button disabled={llamando} onClick={() => anyadeDigito("2")}>2</button></li>
-            <li><button disabled={llamando} onClick={() => anyadeDigito("3")}>3</button></li>
-            <li><button disabled={llamando} onClick={() => anyadeDigito("4")}>4</button></li>
-            <li><button disabled={llamando} onClick={() => anyadeDigito("5")}>5</button></li>
-            <li><button disabled={llamando} onClick={() => anyadeDigito("6")}>6</button></li>
-            <li><button disabled={llamando} onClick={() => anyadeDigito("7")}>7</button></li>
-            <li><button disabled={llamando} onClick={() => anyadeDigito("8")}>8</button></li>
-            <li><button disabled={llamando} onClick={() => anyadeDigito("9")}>9</button></li>
-            <li><button disabled={llamando} onClick={() => anyadeDigito("0")}>0</button></li>
+            {
+              numeroTeclado.map(numero =>
+                <li key={numero}><button disabled={llamando} onClick={() => anyadeDigito(numero)}>{numero}</button></li>
+              )
+            }
             <li><button disabled={llamando} className="big"
               onClick={borraNumero}
               onMouseDown={borraNumeroEntero}
@@ -74,8 +81,8 @@ function App() {
         </div>
         <div className="acciones">
           <span className="numero">{numero}</span>
-          <a href="llamar" className={`llamar${(numero.length === 9 && !llamando) ? " activo" : ""}`} onClick={llamar}>Llamar</a>
-          <a href="colgar" className={`colgar${llamando ? " activo" : ""}`} onClick={colgar}>Colgar</a>
+          <a href="llamar" name="llamar" className={`llamar${(numero.length === 9 && !llamando) ? " activo" : ""}`} onClick={tiempoDeLlamada}>Llamar</a>
+          <a href="colgar" name="colgar" className={`colgar${llamando ? " activo" : ""}`} onClick={tiempoDeLlamada}>Colgar</a>
         </div>
       </main>
     </div>
