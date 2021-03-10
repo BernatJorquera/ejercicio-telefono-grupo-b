@@ -1,4 +1,7 @@
+import { useState } from "react";
+
 function App() {
+  const [numero, setNumero] = useState(666666666);
   return (
     <div className="contenedor">
       <span className="mensaje">Llamando...</span>
@@ -19,7 +22,7 @@ function App() {
           </ol>
         </div>
         <div className="acciones">
-          <span className="numero">667359961</span>
+          <span className="numero">{numero}</span>
           <a href="llamar" className="llamar">Llamar</a>
           <a href="colgar" className="colgar activo">Colgar</a>
         </div>
