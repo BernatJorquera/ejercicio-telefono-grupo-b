@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 function App() {
+  const numeroTeclado = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
   const [numero, setNumero] = useState("657295390");
   const [llamando, setLlamando] = useState(false);
   let tiempoPresionado = "Futuro Timer";
@@ -33,16 +34,11 @@ function App() {
       <main className="telefono">
         <div className="botones">
           <ol className="teclado">
-            <li><button disabled={llamando} onClick={() => anyadeDigito("1")}>1</button></li>
-            <li><button disabled={llamando} onClick={() => anyadeDigito("2")}>2</button></li>
-            <li><button disabled={llamando} onClick={() => anyadeDigito("3")}>3</button></li>
-            <li><button disabled={llamando} onClick={() => anyadeDigito("4")}>4</button></li>
-            <li><button disabled={llamando} onClick={() => anyadeDigito("5")}>5</button></li>
-            <li><button disabled={llamando} onClick={() => anyadeDigito("6")}>6</button></li>
-            <li><button disabled={llamando} onClick={() => anyadeDigito("7")}>7</button></li>
-            <li><button disabled={llamando} onClick={() => anyadeDigito("8")}>8</button></li>
-            <li><button disabled={llamando} onClick={() => anyadeDigito("9")}>9</button></li>
-            <li><button disabled={llamando} onClick={() => anyadeDigito("0")}>0</button></li>
+            {
+              numeroTeclado.map(numero =>
+                <li><button disabled={llamando} onClick={() => anyadeDigito(numero)}>{numero}</button></li>
+              )
+            }
             <li><button disabled={llamando} className="big"
               onClick={borraNumero}
               onMouseDown={borraNumeroEntero}
