@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Numero from "./componentes/Numero";
 import Teclado from "./componentes/Teclado";
 let tiempoPresionado;
 let colgarAutomaticamente;
@@ -65,7 +66,7 @@ function App() {
           borraNumero={borraNumero}
           borraNumeroEntero={borraNumeroEntero}></Teclado>
         <div className="acciones">
-          <span className="numero">{numero}</span>
+          <Numero numero={numero}></Numero>
           {
             !llamando ? <a href="llamar"
               name="llamar"
