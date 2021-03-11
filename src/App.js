@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Numero from "./componentes/Numero";
 import Teclado from "./componentes/Teclado";
+import Mensaje from "./componentes/Mensaje";
 let tiempoPresionado;
 let colgarAutomaticamente;
 let intervalPuntitos;
@@ -12,7 +13,7 @@ function App() {
   const [puntitos, setPuntitos] = useState("");
   const llamada = e => {
     e.preventDefault();
-    if (e.target.name === "llamar") {
+    if (e.target.name === "llamar" && numero.length === 9) {
       setLlamando(true);
       anyadePuntitos("empezar");
       colgarAutomaticamente = setTimeout(() => {
@@ -58,7 +59,7 @@ function App() {
   };
   return (
     <div className="contenedor">
-      <span className={`mensaje${!llamando ? " off" : ""}`}>Llamando{puntitos}</span>
+      <Mensaje llamando={llamando} puntitos={puntitos} />
       <main className="telefono">
         <Teclado numeroTeclado={numeroTeclado}
           llamando={llamando}
