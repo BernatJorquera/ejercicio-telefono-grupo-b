@@ -1,24 +1,23 @@
-import { useEffect } from "react";
 import { useState } from "react";
+let tiempoPresionado;
+let colgarAutomaticamente;
+let intervalPuntitos;
 
 function App() {
   const numeroTeclado = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
   const [numero, setNumero] = useState("657295390");
   const [llamando, setLlamando] = useState(false);
   const [puntitos, setPuntitos] = useState("");
-  let [intervalPuntitos, setIntervalPuntitos] = useState(null);
-  let tiempoPresionado = "Futuro Timer";
-  let [colgarAutomaticamente, setColgarAutomaticamente] = useState(null);
   const llamada = e => {
     e.preventDefault();
     if (e.target.name === "llamar") {
       setLlamando(true);
       anyadePuntitos("empezar");
-      setColgarAutomaticamente(setTimeout(() => {
+      colgarAutomaticamente = setTimeout(() => {
         anyadePuntitos("parar");
         setLlamando(false);
         setNumero("");
-      }, 3000));
+      }, 5000);
     } else if (e.target.name === "colgar") {
       anyadePuntitos("parar");
       setLlamando(false);
@@ -35,7 +34,7 @@ function App() {
     setNumero(numero.slice(0, -1));
   };
   const borraNumeroEntero = (e) => {
-    if (e.type === "mouseup" && typeof tiempoPresionado === "number") {
+    if (e.type === "mouseup" && typeof tiempoPresionado !== "undefined") {
       clearTimeout(tiempoPresionado);
       return;
     }
@@ -43,19 +42,16 @@ function App() {
   };
   const anyadePuntitos = (accion) => {
     if (accion === "parar") {
-      console.log("voy a parar");
-      console.log(intervalPuntitos);
       clearInterval(intervalPuntitos);
+      setPuntitos("");
     } else if (accion === "empezar") {
       let counter = 0;
-      setIntervalPuntitos(
-        setInterval(() => {
-          console.log(counter);
-          setPuntitos((counter % 4 === 0) ? puntitos + "" :
-            ((counter % 4 === 1) ? puntitos + "." :
-              ((counter % 4 === 2) ? puntitos + ".." : "...")));
-          counter++;
-        }, 400));
+      intervalPuntitos = setInterval(() => {
+        setPuntitos((counter % 4 === 0) ? puntitos + "" :
+          ((counter % 4 === 1) ? puntitos + "." :
+            ((counter % 4 === 2) ? puntitos + ".." : "...")));
+        counter++;
+      }, 400);
     };
   };
   return (
