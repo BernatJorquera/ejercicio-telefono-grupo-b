@@ -2,6 +2,7 @@ import { useState } from "react";
 import Numero from "./componentes/Numero";
 import Teclado from "./componentes/Teclado";
 import Mensaje from "./componentes/Mensaje";
+import BotonLlamarColgar from "./componentes/Botones";
 let tiempoPresionado;
 let colgarAutomaticamente;
 let intervalPuntitos;
@@ -68,13 +69,7 @@ function App() {
           borraNumeroEntero={borraNumeroEntero}></Teclado>
         <div className="acciones">
           <Numero numero={numero}></Numero>
-          {
-            !llamando ? <a href="llamar"
-              name="llamar"
-              className={`llamar${(numero.length === 9 && !llamando) ? " activo" : ""}`}
-              onClick={llamada}>Llamar</a>
-              : <a href="colgar" name="colgar" className={`colgar${llamando ? " activo" : ""}`} onClick={llamada}>Colgar</a>
-          }
+          <BotonLlamarColgar llamando={llamando} numero={numero} accion={llamada} />
         </div>
       </main>
     </div>
