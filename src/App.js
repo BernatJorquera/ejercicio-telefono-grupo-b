@@ -78,7 +78,7 @@ function App() {
         <div className="acciones">
           <span className="numero">{numero}</span>
           <a href="llamar" name="llamar" className={`llamar${(numero.length === 9 && !llamando) ? " activo" : " off"}`} onClick={llamada}>Llamar</a>
-          <a href="colgar" name="colgar" className={`colgar${llamando ? "" : " off"}`} onClick={llamada}>Colgar</a>
+          <a href="colgar" name="colgar" className={`colgar${llamando ? " activo" : " off"}`} onClick={llamada}>Colgar</a>
         </div>
       </main>
     </div>
