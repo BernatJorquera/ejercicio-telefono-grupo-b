@@ -6,9 +6,8 @@ function App() {
   const [numero, setNumero] = useState("657295390");
   const [llamando, setLlamando] = useState(false);
   const [puntitos, setPuntitos] = useState("");
-  const [paraPuntitos, setParaPuntitos] = useState(false);
+  let [intervalPuntitos, setIntervalPuntitos] = useState(null);
   let tiempoPresionado = "Futuro Timer";
-  let intervalPuntitos = "Futuro Interval";
   let [colgarAutomaticamente, setColgarAutomaticamente] = useState(null);
   const llamada = e => {
     e.preventDefault();
@@ -16,13 +15,14 @@ function App() {
       setLlamando(true);
       anyadePuntitos("empezar");
       setColgarAutomaticamente(setTimeout(() => {
-        console.log("acabo de colgar");
-        setParaPuntitos(true);
+        anyadePuntitos("parar");
         setLlamando(false);
+        setNumero("");
       }, 3000));
     } else if (e.target.name === "colgar") {
-      setParaPuntitos(true);
+      anyadePuntitos("parar");
       setLlamando(false);
+      setNumero("");
       clearTimeout(colgarAutomaticamente);
     }
   };
@@ -42,25 +42,25 @@ function App() {
     tiempoPresionado = setTimeout(() => setNumero(""), 750);
   };
   const anyadePuntitos = (accion) => {
-    /* if (accion === "parar" && typeof intervalPuntitos === "number") {
+    if (accion === "parar") {
       console.log("voy a parar");
+      console.log(intervalPuntitos);
       clearInterval(intervalPuntitos);
-      return;
-    } */
-    let counter = 0;
-    intervalPuntitos = setInterval(() => {
-      if (paraPuntitos) {
-        clearInterval(intervalPuntitos);
-      }
-      setPuntitos((counter % 4 === 0) ? puntitos + "" :
-        ((counter % 4 === 1) ? puntitos + "." :
-          ((counter % 4 === 2) ? puntitos + ".." : "...")));
-      counter++;
-    }, 400);
+    } else if (accion === "empezar") {
+      let counter = 0;
+      setIntervalPuntitos(
+        setInterval(() => {
+          console.log(counter);
+          setPuntitos((counter % 4 === 0) ? puntitos + "" :
+            ((counter % 4 === 1) ? puntitos + "." :
+              ((counter % 4 === 2) ? puntitos + ".." : "...")));
+          counter++;
+        }, 400));
+    };
   };
   return (
     <div className="contenedor">
-      <span className="mensaje" hidden={!llamando}>Llamando{puntitos}</span>
+      <span className={`mensaje${!llamando ? " off" : ""}`}>Llamando{puntitos}</span>
       <main className="telefono">
         <div className="botones">
           <ol className="teclado">
@@ -83,6 +83,6 @@ function App() {
       </main>
     </div>
   );
-}
+};
 
 export default App;
