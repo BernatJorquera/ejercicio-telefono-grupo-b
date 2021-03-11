@@ -1,4 +1,6 @@
 import { useState } from "react";
+import Numero from "./componentes/Numero";
+import Teclado from "./componentes/Teclado";
 let tiempoPresionado;
 let colgarAutomaticamente;
 let intervalPuntitos;
@@ -58,21 +60,13 @@ function App() {
     <div className="contenedor">
       <span className={`mensaje${!llamando ? " off" : ""}`}>Llamando{puntitos}</span>
       <main className="telefono">
-        <div className="botones">
-          <ol className="teclado">
-            {
-              numeroTeclado.map(numero =>
-                <li key={numero}><button disabled={llamando} onClick={() => anyadeDigito(numero)}>{numero}</button></li>
-              )
-            }
-            <li><button disabled={llamando} className="big"
-              onClick={borraNumero}
-              onMouseDown={borraNumeroEntero}
-              onMouseUp={borraNumeroEntero}>borrar</button></li>
-          </ol>
-        </div>
+        <Teclado numeroTeclado={numeroTeclado}
+          llamando={llamando}
+          anyadeDigito={anyadeDigito}
+          borraNumero={borraNumero}
+          borraNumeroEntero={borraNumeroEntero}></Teclado>
         <div className="acciones">
-          <span className="numero">{numero}</span>
+          <Numero numero={numero}></Numero>
           {
             !llamando ? <a href="llamar"
               name="llamar"
