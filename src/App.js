@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useState } from "react";
 
 function App() {
@@ -8,18 +9,21 @@ function App() {
   const [paraPuntitos, setParaPuntitos] = useState(false);
   let tiempoPresionado = "Futuro Timer";
   let intervalPuntitos = "Futuro Interval";
-  const tiempoDeLlamada = e => {
+  let [colgarAutomaticamente, setColgarAutomaticamente] = useState(null);
+  const llamada = e => {
     e.preventDefault();
     if (e.target.name === "llamar") {
       setLlamando(true);
       anyadePuntitos("empezar");
-      setTimeout(() => {
+      setColgarAutomaticamente(setTimeout(() => {
+        console.log("acabo de colgar");
         setParaPuntitos(true);
         setLlamando(false);
-      }, 5000);
+      }, 3000));
     } else if (e.target.name === "colgar") {
       setParaPuntitos(true);
       setLlamando(false);
+      clearTimeout(colgarAutomaticamente);
     }
   };
   const anyadeDigito = (digito) => {
@@ -73,8 +77,8 @@ function App() {
         </div>
         <div className="acciones">
           <span className="numero">{numero}</span>
-          <a href="llamar" name="llamar" className={`llamar${(numero.length === 9 && !llamando) ? " activo" : " off"}`} onClick={tiempoDeLlamada}>Llamar</a>
-          <a href="colgar" name="colgar" className={`colgar${llamando ? "" : " off"}`} onClick={tiempoDeLlamada}>Colgar</a>
+          <a href="llamar" name="llamar" className={`llamar${(numero.length === 9 && !llamando) ? " activo" : " off"}`} onClick={llamada}>Llamar</a>
+          <a href="colgar" name="colgar" className={`colgar${llamando ? "" : " off"}`} onClick={llamada}>Colgar</a>
         </div>
       </main>
     </div>
